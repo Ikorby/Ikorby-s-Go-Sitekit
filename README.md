@@ -1,4 +1,4 @@
-# Ikorby-s-Go-Sitekit
+# Ikorby's Go Sitekit
 
 A lightweight framework for building static and small business websites with Go.
 
