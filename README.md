@@ -21,13 +21,13 @@ SiteKit is designed to simplify the development of fast, maintainable, and reusa
 
 ## Roadmap
 
+* [x] Configuration
+* [x] Layout system
+* [x] Static file handling
 * [ ] Routing
 * [ ] Template rendering
-* [ ] Layout system
-* [ ] Static file handling
 * [ ] Middleware
 * [ ] Error pages
-* [ ] Configuration
 * [ ] SEO helpers
 * [ ] Documentation
 * [ ] Examples
