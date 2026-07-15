@@ -1,4 +1,4 @@
-# Ikorby's Go Sitekit
+# Sitekit
 
 A lightweight framework for building static and small business websites with Go.
 
@@ -24,13 +24,13 @@ SiteKit is designed to simplify the development of fast, maintainable, and reusa
 * [x] Configuration
 * [x] Layout system
 * [x] Static file handling
-* [ ] Routing
-* [ ] Template rendering
-* [ ] Middleware
-* [ ] Error pages
-* [ ] SEO helpers
-* [ ] Documentation
-* [ ] Examples
+* [x] Routing
+* [x] Template rendering
+* [x] Middleware
+* [x] Error pages
+* [x] SEO helpers
+* [x] Documentation
+* [x] Examples
 
 ## License
 
