@@ -1,38 +1,55 @@
 # Sitekit
 
-A lightweight framework for building static and small business websites with Go.
+> An opinionated server-side rendering framework for Go.
 
-SiteKit is designed to simplify the development of fast, maintainable, and reusable websites by providing a minimal abstraction over Go's standard library. It focuses on server-side rendering, HTML templates, reusable components, and a clean project structure without introducing unnecessary complexity.
+Building traditional web applications in Go often means assembling the same pieces over and over again: routing, templates, rendering, middleware, configuration, static assets, SEO, and error handling.
 
-## Featuring:
+Sitekit provides those pieces with a consistent structure while staying close to the tools Go already gives you.
 
-* Lightweight architecture
+
+---
+
+## Features
+
+* Standard library first
 * Server-side rendering with `html/template`
-* Reusable layouts and components
+* Layouts and page rendering
+* Routing built on `http.ServeMux`
+* HTTP and handler middleware
+* Environment-based configuration
 * Static file serving
-* Configurable routing
-* Middleware support
-* SEO utilities
-* Error handling
+* SEO helpers
+* Structured HTTP errors
+* Minimal, explicit APIs
 
-> **Note**
->
-> SiteKit is currently under development. Documentation and examples will be expanded as new features become available.
+---
 
-## Roadmap
+## Installation
 
-* [x] Configuration
-* [x] Layout system
-* [x] Static file handling
-* [x] Routing
-* [x] Template rendering
-* [x] Middleware
-* [x] Error pages
-* [x] SEO helpers
-* [x] Documentation
-* [x] Examples
+```bash
+go get github.com/ikorby/sitekit
+```
 
-## License
+---
 
-This project is licensed under the MIT License.
+## Non-goals
 
+Sitekit intentionally does **not** provide:
+
+* an ORM
+* dependency injection
+* a custom template language
+* a frontend framework
+* a replacement for `net/http`
+
+The goal is to build maintainable server-rendered applications.
+
+---
+
+## Status
+
+Sitekit is under active development. While the project is already usable, APIs may continue to evolve before the first stable release.
+
+---
+
+![tests](https://github.com/ikorby/sitekit/actions/workflows/test.yml/badge.svg)
