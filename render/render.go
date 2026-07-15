@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/page"
+	"github.com/ikorby/sitekit/page"
 )
 
 type Renderer struct {

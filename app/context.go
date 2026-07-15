@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/page"
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/render"
+	"github.com/ikorby/sitekit/page"
+	"github.com/ikorby/sitekit/render"
 )
 
 type Context struct {
@@ -22,6 +22,16 @@ func newContext(w http.ResponseWriter, r *http.Request, renderer *render.Rendere
 
 func (c *Context) Context() context.Context {
 	return c.R.Context()
+}
+
+type ctxKey string
+
+func WithValue(r *http.Request, key string, val any) *http.Request {
+	return r.WithContext(context.WithValue(r.Context(), ctxKey(key), val))
+}
+
+func (c *Context) Value(key string) any {
+	return c.R.Context().Value(ctxKey(key))
 }
 
 func (c *Context) Param(name string) string {

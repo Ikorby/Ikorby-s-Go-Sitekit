@@ -4,7 +4,7 @@ import (
 	"io/fs"
 	"net/http"
 
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/config"
+	"github.com/ikorby/sitekit/config"
 )
 
 func New(fsys fs.FS, cfg *config.Config) http.Handler {

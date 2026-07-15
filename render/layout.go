@@ -1,6 +1,6 @@
 package render
 
-import "github.com/Ikorby/Ikorby-s-Go-Sitekit/page"
+import "github.com/ikorby/sitekit/page"
 
 const (
 	layoutsDir       = "layouts"

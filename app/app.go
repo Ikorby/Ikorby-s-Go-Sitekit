@@ -11,37 +11,68 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/config"
-	"github.com/Ikorby/Ikorby-s-Go-Sitekit/render"
+	"github.com/ikorby/sitekit/config"
+	"github.com/ikorby/sitekit/render"
 )
 
 const shutdownTimeout = 10 * time.Second
 
+type Middleware func(http.Handler) http.Handler
+
 type App struct {
 	Config       *config.Config
 	Renderer     *render.Renderer
-	ErrorHandler ErrorHandler
-	Handler      http.Handler
+	Mux          *http.ServeMux
 	Logger       *slog.Logger
+	ErrorHandler ErrorHandler
+	middlewares  []Middleware
 	server       *http.Server
 }
 
-func New(cfg *config.Config, renderer *render.Renderer) *App {
-	return &App{
-		Config:   cfg,
-		Renderer: renderer,
-		Logger:   slog.Default(),
+type Option func(*App)
+
+func WithRenderer(r *render.Renderer) Option {
+	return func(a *App) { a.Renderer = r }
+}
+
+func WithLogger(l *slog.Logger) Option {
+	return func(a *App) { a.Logger = l }
+}
+
+func WithErrorHandler(eh ErrorHandler) Option {
+	return func(a *App) { a.ErrorHandler = eh }
+}
+
+func WithMiddleware(mws ...Middleware) Option {
+	return func(a *App) { a.middlewares = append(a.middlewares, mws...) }
+}
+
+func New(cfg *config.Config, opts ...Option) *App {
+	a := &App{
+		Config: cfg,
+		Mux:    http.NewServeMux(),
+		Logger: slog.Default(),
 	}
+
+	for _, opt := range opts {
+		opt(a)
+	}
+
+	return a
+}
+
+func (a *App) handler() http.Handler {
+	var h http.Handler = a.Mux
+	for i := len(a.middlewares) - 1; i >= 0; i-- {
+		h = a.middlewares[i](h)
+	}
+	return h
 }
 
 func (a *App) Run() error {
-	if a.Handler == nil {
-		return errors.New("app: Handler is not set (assign a.Handler before calling Run)")
-	}
-
 	a.server = &http.Server{
 		Addr:              a.Config.Addr(),
-		Handler:           a.Handler,
+		Handler:           a.handler(),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
