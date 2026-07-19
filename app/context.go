@@ -42,7 +42,7 @@ func (c *Context) Query(name string) string {
 	return c.R.URL.Query().Get(name)
 }
 
-func (c *Context) Render(status int, p *page.Page) error {
+func (c *Context) Render(status int, p page.Page) error {
 	if c.renderer == nil {
 		return errNoRenderer
 	}

@@ -14,9 +14,9 @@ type viewData struct {
 	Data any
 }
 
-func newViewData(p *page.Page) viewData {
+func newViewData(p page.Page) viewData {
 	return viewData{
-		Meta: p.Meta,
-		Data: p.Data,
+		Meta: p.GetMeta(), // <- Вызываем метод интерфейса
+		Data: p.GetData(), // <- Вызываем метод интерфейса
 	}
 }

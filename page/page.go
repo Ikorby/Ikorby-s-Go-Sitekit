@@ -9,26 +9,38 @@ type Meta struct {
 	NoIndex      bool
 }
 
-type Page struct {
+type Page interface {
+	GetTemplate() string
+	GetLayout() string
+	GetMeta() Meta
+	GetData() any
+}
+
+type TypedPage[T any] struct {
 	Template string
 	Layout   string
 	Meta     Meta
-	Data     any
+	Data     T
 }
 
-func New(template string, data any) *Page {
-	return &Page{
+func New[T any](template string, data T) *TypedPage[T] {
+	return &TypedPage[T]{
 		Template: template,
 		Data:     data,
 	}
 }
 
-func (p *Page) WithLayout(layout string) *Page {
+func (p *TypedPage[T]) WithLayout(layout string) *TypedPage[T] {
 	p.Layout = layout
 	return p
 }
 
-func (p *Page) WithMeta(meta Meta) *Page {
+func (p *TypedPage[T]) WithMeta(meta Meta) *TypedPage[T] {
 	p.Meta = meta
 	return p
 }
+
+func (p *TypedPage[T]) GetTemplate() string { return p.Template }
+func (p *TypedPage[T]) GetLayout() string   { return p.Layout }
+func (p *TypedPage[T]) GetMeta() Meta       { return p.Meta }
+func (p *TypedPage[T]) GetData() any        { return p.Data }

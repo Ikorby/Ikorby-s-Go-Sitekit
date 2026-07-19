@@ -11,14 +11,11 @@ import (
 )
 
 type Renderer struct {
-	fsys fs.FS
-
+	fsys   fs.FS
 	reload bool
-
-	funcs template.FuncMap
-
-	mu    sync.RWMutex
-	cache map[string]*template.Template
+	funcs  template.FuncMap
+	mu     sync.RWMutex
+	cache  map[string]*template.Template
 }
 
 func New(fsys fs.FS, reload bool) *Renderer {
@@ -37,32 +34,30 @@ func (r *Renderer) Funcs(fm template.FuncMap) *Renderer {
 	return r
 }
 
-func (r *Renderer) Render(w http.ResponseWriter, status int, p *page.Page) error {
+func (r *Renderer) Render(w http.ResponseWriter, status int, p page.Page) error {
 	if p == nil {
 		return fmt.Errorf("render: page is nil")
 	}
-	if p.Template == "" {
+	if p.GetTemplate() == "" {
 		return fmt.Errorf("render: page.Template is empty")
 	}
 
-	layout := p.Layout
+	layout := p.GetLayout()
 	if layout == "" {
 		layout = defaultLayout
 	}
 
-	tmpl, err := r.templateFor(layout, p.Template)
+	tmpl, err := r.templateFor(layout, p.GetTemplate())
 	if err != nil {
 		return fmt.Errorf("render: %w", err)
 	}
 
 	data := newViewData(p)
-
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(status)
 
 	if err := tmpl.ExecuteTemplate(w, layoutEntrypoint, data); err != nil {
-		return fmt.Errorf("render: execute template %q: %w", p.Template, err)
+		return fmt.Errorf("render: execute template %q: %w", p.GetTemplate(), err)
 	}
-
 	return nil
 }
